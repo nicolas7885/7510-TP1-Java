@@ -42,6 +42,7 @@ public class Parser {
 	}
 
 	public static Fact create(String fact) {
+		if(!validate(fact) ) throw new IllegalArgumentException();
 		Matcher matcher = FACT_PATTERN.matcher(fact);
 		if (!matcher.find())
 			throw new RuntimeException("invalidFact");
