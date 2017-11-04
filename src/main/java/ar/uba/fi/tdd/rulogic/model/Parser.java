@@ -4,9 +4,30 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class Parser {
+	private static final String RULE_DELIMETER = ":-";
 	protected final static Pattern FACT_PATTERN = Pattern.compile("(\\w+)[ \\t]*(\\(([\\w\\s,$]+)\\))");
 
-	public static boolean validate(String fact) {
+	public static boolean validate(String implicacion) {
+		if (implicacion.contains(":") || implicacion.contains("-")) {
+			return validateRule(implicacion);
+		} else {
+			return validateFact(implicacion);
+		}
+	}
+
+	private static boolean validateRule(String rule) {
+		String[] separatedRule = rule.split(RULE_DELIMETER);
+		if (separatedRule.length != 2) return false;
+		String definition = separatedRule[0];
+		boolean valid = validateFact(definition);
+		Matcher objectiveMatcher = FACT_PATTERN.matcher(separatedRule[1]);
+		while (valid && objectiveMatcher.find()){
+			valid = valid && validateFact(objectiveMatcher.group());
+		}
+		return valid;
+	}
+
+	private static boolean validateFact(String fact) {
 		boolean valid = true;
 		Matcher matcher = FACT_PATTERN.matcher(fact);
 		if (!matcher.find())

@@ -41,10 +41,12 @@ public class ParserTest {
 	@Test
 	public void testValidateCorrectRule() {
 		assert (Parser.validate("hijo(X, Y) :- varon(X), padre(Y, X)."));
+		assert (Parser.validate("hijo(X, Y) :- varon(X), padre(Y, X), varon(Y)."));
 	}
 
 	@Test
 	public void testValidateIncorrectRule() {
-		assertFalse(Parser.validate("hijo(X, Y) :- varon(X), padre(Y, X)."));
+		assertFalse(Parser.validate("hijo(X, Y) - varon(X), padre(Y, X)."));
+		assertFalse(Parser.validate("hijo(X, Y) : varon(X), padre(Y, X)."));
 	}
 }
