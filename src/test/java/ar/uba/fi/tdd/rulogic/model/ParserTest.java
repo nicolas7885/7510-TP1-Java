@@ -37,4 +37,14 @@ public class ParserTest {
 		assertFalse(Parser.validate("varon javier, lucia)"));
 		assertFalse(Parser.validate("varon (javier, lucia"));
 	}
+
+	@Test
+	public void testValidateCorrectRule() {
+		assert (Parser.validate("hijo(X, Y) :- varon(X), padre(Y, X)."));
+	}
+
+	@Test
+	public void testValidateIncorrectRule() {
+		assertFalse(Parser.validate("hijo(X, Y) :- varon(X), padre(Y, X)."));
+	}
 }
