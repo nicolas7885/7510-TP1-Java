@@ -8,22 +8,26 @@ public class FactTest {
 
 	@Test
 	public void testValidateCorrectFact() {
-		//given
-		String fact = "varon (javier)";
-		//when
-		boolean result = Fact.validate(fact);
-		//then
-		assert(result);
+		boolean result = Fact.validate("varon (javier)");
+		assert (result);
 	}
-	
+
+	@Test
+	public void testValidateIncorrectFact() {
+		assertFalse(Fact.validate("varon javier)"));
+		assertFalse(Fact.validate("varon (javier"));
+		assertFalse(Fact.validate("varon javier"));
+		assertFalse(Fact.validate("varon ()"));
+		assertFalse(Fact.validate("(javier)"));
+		assertFalse(Fact.validate("avier)"));
+		assertFalse(Fact.validate("(avier"));
+	}
+
 	@Test
 	public void testTemplate() {
-		//given
 		String fact = "varon (javier)";
-		//when
 		boolean result = Fact.validate(fact);
-		//then
-		assert(result);
+		assert (result);
 	}
 
 }
