@@ -2,11 +2,11 @@ package ar.uba.fi.tdd.rulogic.model;
 
 public class Fact {
 	String definition;
-	String value;
+	String[] values;
 	
-	Fact (String definition, String value){
+	Fact (String definition, String[] strings){
 		this.definition = definition;
-		this.value = value;
+		this.values = strings;
 	}
 
 	public boolean answer(String string) {
