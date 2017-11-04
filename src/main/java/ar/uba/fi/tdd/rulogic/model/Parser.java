@@ -40,4 +40,9 @@ public class Parser {
 		return valid;
 	}
 
+	public static Fact create(String string) {
+		
+		return null;
+	}
+
 }
