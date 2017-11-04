@@ -9,12 +9,12 @@ public class Parser {
 	public static boolean validate(String fact) {
 		boolean valid = true;
 		Matcher matcher = FACT_PATTERN.matcher(fact);
-		if(!matcher.find())
+		if (!matcher.find())
 			return false;
 		String rawParameters = matcher.group(3);
-		if(rawParameters.contains(" ") && !rawParameters.contains(","))
+		if (rawParameters.contains(" ") && !rawParameters.contains(","))
 			return false;
-		if ( rawParameters.contains(" ") && rawParameters.contains(","))
+		if (rawParameters.contains(" ") && rawParameters.contains(","))
 			valid = rawParameters.split(",").length == rawParameters.split("\\s+").length;
 		return valid;
 	}
