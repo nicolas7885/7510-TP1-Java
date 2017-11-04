@@ -8,14 +8,15 @@ public class FactTest {
 
 	@Test
 	public void testValidateCorrectFact() {
-		boolean result = Fact.validate("varon (javier)");
-		assert (result);
+		assert (Fact.validate("varon (javier)"));
+		assert (Fact.validate("varon(javier)"));
+		assert (Fact.validate("varon (javier)."));
 	}
 
 	@Test
 	public void testValidateIncorrectFact() {
 		assertFalse(Fact.validate("varon javier)"));
-		assertFalse(Fact.validate("varon (javier"));
+		assertFalse(Fact.validate("varon(javier"));
 		assertFalse(Fact.validate("varon javier"));
 		assertFalse(Fact.validate("varon ()"));
 		assertFalse(Fact.validate("(javier)"));
@@ -24,10 +25,16 @@ public class FactTest {
 	}
 
 	@Test
-	public void testTemplate() {
-		String fact = "varon (javier)";
-		boolean result = Fact.validate(fact);
-		assert (result);
+	public void testValidateCorrectMultipleParamFact() {
+		assert (Fact.validate("varon (javier, lucia)"));
+		assert (Fact.validate("varon (javier, lucia, julio)"));
 	}
 
+	@Test
+	public void testValidateIncorrectMultipleParamFact() {
+		assertFalse(Fact.validate("varon (javier lucia)"));
+		assertFalse(Fact.validate("varon (javier, lucia julio)"));
+		assertFalse(Fact.validate("varon javier, lucia)"));
+		assertFalse(Fact.validate("varon (javier, lucia"));
+	}
 }
