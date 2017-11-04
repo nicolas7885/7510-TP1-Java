@@ -3,7 +3,7 @@ package ar.uba.fi.tdd.rulogic.model;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class Fact {
+public class Parser {
 	protected final static Pattern FACT_PATTERN = Pattern.compile("(\\w+)[ \\t]*(\\(([\\w\\s,$]+)\\))");
 
 	public static boolean validate(String fact) {
