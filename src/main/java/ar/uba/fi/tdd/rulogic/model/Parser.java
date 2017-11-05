@@ -1,5 +1,6 @@
 package ar.uba.fi.tdd.rulogic.model;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.regex.Matcher;
@@ -44,7 +45,7 @@ public class Parser {
 		return rawParameters.split(",").length == parameters.size();
 	}
 
-	public static Fact createImplication(String fact) {
+	public static Fact createFact(String fact) {
 		Matcher matcher = matchFact(fact);
 		List<String> parameters = extractParameters(matcher);
 		return new Fact(matcher.group(1), parameters.toArray(new String[parameters.size()]));
@@ -75,4 +76,16 @@ public class Parser {
 		return new Query(matcher.group(1), parameters.toArray(new String[parameters.size()]));
 	}
 
+	public static Rule createRule(String ruleString) {
+		String[] separatedRule = ruleString.split(RULE_DELIMETER);
+		if (separatedRule.length != 2) throw new IllegalArgumentException("invalidRuleDelimeter");
+		Matcher definitionMatcher = matchFact(separatedRule[0]);
+		List<String> parameters = extractParameters(definitionMatcher);
+		Matcher objectiveMatcher = FACT_PATTERN.matcher(separatedRule[1]);
+		List<Fact> objectives = new ArrayList<>();
+		while (objectiveMatcher.find()){
+			objectives.add(createFact(objectiveMatcher.group()));
+		}
+		return new Rule(definitionMatcher.group(1),parameters, objectives);
+	}
 }

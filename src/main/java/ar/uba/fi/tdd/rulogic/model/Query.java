@@ -1,19 +1,14 @@
 package ar.uba.fi.tdd.rulogic.model;
 
-public class Query {
-	private String definition;
-	private String[] parameters;
+import java.util.List;
+
+public class Query extends Function{
 
 	public Query(String definition, String[] parameters) {
-		this.definition = definition;
-		this.parameters = parameters;
+		super(definition, parameters);
 	}
 
-	public String getDefinition(){
-		return definition;
-	}
-
-	public String[] getParameters() {
+	public List<String> getParameters() {
 		return parameters;
 	}
 }

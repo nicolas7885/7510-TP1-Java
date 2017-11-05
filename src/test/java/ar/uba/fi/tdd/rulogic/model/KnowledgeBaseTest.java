@@ -23,4 +23,8 @@ public class KnowledgeBaseTest {
 		Assert.assertFalse(this.knowledgeBase.answer("varon (javier)."));
 	}
 
+	@Test
+	public void testQueryCorrectRule() {
+		Assert.assertTrue(this.knowledgeBase.answer("hijo (pepe, juan)."));
+	}
 }

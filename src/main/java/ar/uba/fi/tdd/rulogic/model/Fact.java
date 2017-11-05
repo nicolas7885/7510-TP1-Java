@@ -1,34 +1,28 @@
 package ar.uba.fi.tdd.rulogic.model;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class Fact {
-	private String definition;
-	private List<String> values;
-	
+public class Fact extends Function {
 	Fact (String definition, String[] values){
-		this.definition = definition;
-		if(values.length < 1) throw new IllegalArgumentException();
-		this.values = new ArrayList<String>(Arrays.asList(values));
+		super(definition,values);
 	}
 
 	public boolean answer(String parameter) {
-		return values.contains(parameter);
-	}
-	
-	public boolean answer(String[] parameters) {
-		boolean result= true;
-		if(parameters.length != values.size()) return false;
-		for(int i = 0; result && i < parameters.length; i++){
-			String query = parameters[i];
-			result = query.equals(values.get(i));
-		}
-		return result;
+		return parameters.contains(parameter);
 	}
 
-	public String getDefinition() {
-		return definition;
+	public boolean answer(String[] parameters) {
+		return answer(Arrays.asList(parameters));
+	}
+
+	public boolean answer(List<String> parameters) {
+		boolean result= true;
+		if(parameters.size() != this.parameters.size()) return false;
+		for(int i = 0; result && i < parameters.size(); i++){
+			String query = parameters.get(i);
+			result = query.equals(this.parameters.get(i));
+		}
+		return result;
 	}
 }
