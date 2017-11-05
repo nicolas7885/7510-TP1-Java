@@ -20,12 +20,12 @@ public class KnowledgeBase {
 		try (BufferedReader br = new BufferedReader(new FileReader(path))) {
 			String line = br.readLine();
 			while (line != null) {
-				if(line.contains(":") || line.contains("-")){
+				if (line.contains(":") || line.contains("-")) {
 					this.learnRule(Parser.createRule(line));
 				} else {
 					this.learnFact(Parser.createFact(line));
 				}
-				
+
 				line = br.readLine();
 			}
 		}
@@ -35,12 +35,21 @@ public class KnowledgeBase {
 		rules.put(newRule.getDefinition(), newRule);
 	}
 
-	public boolean answer(String query) {
-		Query q = Parser.createQuery(query);
-		if(facts.containsKey(q.getDefinition())){
-			return facts.get(q.getDefinition()).stream().anyMatch(fact -> fact.answer(q.getParameters()));
+	public boolean answer(String queryString) {
+		Query query = Parser.createQuery(queryString);
+		return answer(query);
+	}
+
+	private boolean answer(Query query) {
+		String definition = query.getDefinition();
+		if (facts.containsKey(definition)) {
+			return facts.get(definition).stream().anyMatch(fact -> fact.answer(query.getParameters()));
 		}
-		return false;
+		if (! rules.containsKey(definition))
+			throw new IllegalArgumentException("queryNotFound");
+		Rule rule = rules.get(definition);
+		List<Query> queries = rule.generateObjectives(query.getParameters());
+		return queries.stream().allMatch(partialQuery -> answer(partialQuery));
 	}
 
 	private void learnFact(Fact newFact) {

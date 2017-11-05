@@ -81,9 +81,9 @@ public class Parser {
 		Matcher definitionMatcher = matchFact(separatedRule[0]);
 		List<String> parameters = extractParameters(definitionMatcher);
 		Matcher objectiveMatcher = FACT_PATTERN.matcher(separatedRule[1]);
-		List<Fact> objectives = new ArrayList<>();
+		List<Query> objectives = new ArrayList<>();
 		while (objectiveMatcher.find()) {
-			objectives.add(createFact(objectiveMatcher.group()));
+			objectives.add(createQuery(objectiveMatcher.group()));
 		}
 		return new Rule(definitionMatcher.group(1), parameters, objectives);
 	}
