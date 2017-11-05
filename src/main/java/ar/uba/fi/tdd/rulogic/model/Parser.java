@@ -6,6 +6,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
+//fact, rules and query factory
 public class Parser {
 	private static final String INVALID_PARAMETER_DELIMETER = "invalidParameterDelimeter";
 	private static final String RULE_DELIMETER = ":-";
@@ -44,12 +45,17 @@ public class Parser {
 	}
 
 	public static Fact createImplication(String fact) {
+		Matcher matcher = matchFact(fact);
+		List<String> parameters = extractParameters(matcher);
+		return new Fact(matcher.group(1), parameters.toArray(new String[parameters.size()]));
+	}
+
+	private static Matcher matchFact(String fact) {
 		if(!validate(fact)) throw new IllegalArgumentException();
 		Matcher matcher = FACT_PATTERN.matcher(fact);
 		if (!matcher.find())
 			throw new RuntimeException("invalidFact");
-		List<String> parameters = extractParameters(matcher);
-		return new Fact(matcher.group(1), parameters.toArray(new String[parameters.size()]));
+		return matcher;
 	}
 
 	private static List<String> extractParameters(Matcher matcher) {
@@ -64,9 +70,7 @@ public class Parser {
 	}
 
 	public static Query createQuery(String query) {
-		Matcher matcher = FACT_PATTERN.matcher(query);
-		if (!matcher.find())
-			throw new RuntimeException("invalidFact");
+		Matcher matcher = matchFact(query);
 		List<String> parameters = extractParameters(matcher);
 		return new Query(matcher.group(1), parameters.toArray(new String[parameters.size()]));
 	}
