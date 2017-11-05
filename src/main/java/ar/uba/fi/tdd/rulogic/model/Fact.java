@@ -4,8 +4,8 @@ import java.util.Arrays;
 import java.util.List;
 
 public class Fact extends Function {
-	Fact (String definition, String[] values){
-		super(definition,values);
+	Fact(String definition, String[] values) {
+		super(definition, values);
 	}
 
 	public boolean answer(String parameter) {
@@ -17,9 +17,10 @@ public class Fact extends Function {
 	}
 
 	public boolean answer(List<String> parameters) {
-		boolean result= true;
-		if(parameters.size() != this.parameters.size()) return false;
-		for(int i = 0; result && i < parameters.size(); i++){
+		boolean result = true;
+		if (parameters.size() != this.parameters.size())
+			return false;
+		for (int i = 0; result && i < parameters.size(); i++) {
 			String query = parameters.get(i);
 			result = query.equals(this.parameters.get(i));
 		}

@@ -23,11 +23,12 @@ public class Parser {
 
 	private static boolean validateRule(String rule) {
 		String[] separatedRule = rule.split(RULE_DELIMETER);
-		if (separatedRule.length != 2) return false;
+		if (separatedRule.length != 2)
+			return false;
 		String definition = separatedRule[0];
 		boolean valid = validateFact(definition);
 		Matcher objectiveMatcher = FACT_PATTERN.matcher(separatedRule[1]);
-		while (valid && objectiveMatcher.find()){
+		while (valid && objectiveMatcher.find()) {
 			valid = valid && validateFact(objectiveMatcher.group());
 		}
 		return valid;
@@ -39,9 +40,7 @@ public class Parser {
 			return false;
 		String rawParameters = matcher.group(3);
 		List<String> parameters = Arrays.asList(rawParameters.split("[,\\s]+"));
-		parameters = parameters.stream()
-				.filter(s -> !s.isEmpty())
-				.collect(Collectors.toList());
+		parameters = parameters.stream().filter(s -> !s.isEmpty()).collect(Collectors.toList());
 		return rawParameters.split(",").length == parameters.size();
 	}
 
@@ -52,7 +51,8 @@ public class Parser {
 	}
 
 	private static Matcher matchFact(String fact) {
-		if(!validate(fact)) throw new IllegalArgumentException();
+		if (!validate(fact))
+			throw new IllegalArgumentException();
 		Matcher matcher = FACT_PATTERN.matcher(fact);
 		if (!matcher.find())
 			throw new RuntimeException("invalidFact");
@@ -62,10 +62,8 @@ public class Parser {
 	private static List<String> extractParameters(Matcher matcher) {
 		String rawParameters = matcher.group(3);
 		List<String> parameters = Arrays.asList(rawParameters.split("[,\\s]+"));
-		parameters = parameters.stream()
-				.filter(s -> !s.isEmpty())
-				.collect(Collectors.toList());
-		if(rawParameters.split(",").length  != parameters.size())
+		parameters = parameters.stream().filter(s -> !s.isEmpty()).collect(Collectors.toList());
+		if (rawParameters.split(",").length != parameters.size())
 			throw new IllegalArgumentException(INVALID_PARAMETER_DELIMETER);
 		return parameters;
 	}
@@ -78,14 +76,15 @@ public class Parser {
 
 	public static Rule createRule(String ruleString) {
 		String[] separatedRule = ruleString.split(RULE_DELIMETER);
-		if (separatedRule.length != 2) throw new IllegalArgumentException("invalidRuleDelimeter");
+		if (separatedRule.length != 2)
+			throw new IllegalArgumentException("invalidRuleDelimeter");
 		Matcher definitionMatcher = matchFact(separatedRule[0]);
 		List<String> parameters = extractParameters(definitionMatcher);
 		Matcher objectiveMatcher = FACT_PATTERN.matcher(separatedRule[1]);
 		List<Fact> objectives = new ArrayList<>();
-		while (objectiveMatcher.find()){
+		while (objectiveMatcher.find()) {
 			objectives.add(createFact(objectiveMatcher.group()));
 		}
-		return new Rule(definitionMatcher.group(1),parameters, objectives);
+		return new Rule(definitionMatcher.group(1), parameters, objectives);
 	}
 }
