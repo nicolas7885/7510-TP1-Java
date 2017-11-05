@@ -28,7 +28,7 @@ public class Fact {
 		return result;
 	}
 
-	public Object getDefinition() {
+	public String getDefinition() {
 		return definition;
 	}
 }

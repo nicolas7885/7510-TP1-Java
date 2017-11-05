@@ -43,11 +43,16 @@ public class Parser {
 		return rawParameters.split(",").length == parameters.size();
 	}
 
-	public static Fact create(String fact) {
+	public static Fact createImplication(String fact) {
 		if(!validate(fact)) throw new IllegalArgumentException();
 		Matcher matcher = FACT_PATTERN.matcher(fact);
 		if (!matcher.find())
 			throw new RuntimeException("invalidFact");
+		List<String> parameters = extractParameters(matcher);
+		return new Fact(matcher.group(1), parameters.toArray(new String[parameters.size()]));
+	}
+
+	private static List<String> extractParameters(Matcher matcher) {
 		String rawParameters = matcher.group(3);
 		List<String> parameters = Arrays.asList(rawParameters.split("[,\\s]+"));
 		parameters = parameters.stream()
@@ -55,7 +60,15 @@ public class Parser {
 				.collect(Collectors.toList());
 		if(rawParameters.split(",").length  != parameters.size())
 			throw new IllegalArgumentException(INVALID_PARAMETER_DELIMETER);
-		return new Fact(matcher.group(1), parameters.toArray(new String[parameters.size()]));
+		return parameters;
+	}
+
+	public static Query createQuery(String query) {
+		Matcher matcher = FACT_PATTERN.matcher(query);
+		if (!matcher.find())
+			throw new RuntimeException("invalidFact");
+		List<String> parameters = extractParameters(matcher);
+		return new Query(matcher.group(1), parameters.toArray(new String[parameters.size()]));
 	}
 
 }

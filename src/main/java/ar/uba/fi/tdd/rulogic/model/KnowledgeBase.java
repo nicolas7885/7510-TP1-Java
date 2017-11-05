@@ -15,25 +15,28 @@ public class KnowledgeBase {
 
 	public KnowledgeBase(String path) throws FileNotFoundException, IOException {
 		facts = new HashMap<>();
-		try(BufferedReader br = new BufferedReader(new FileReader(path))) {
-		    String line = br.readLine();
-		    while (line != null) {
-		    	this.learn(Parser.create(line));
-		        line = br.readLine();
-		    }
+		try (BufferedReader br = new BufferedReader(new FileReader(path))) {
+			String line = br.readLine();
+			while (line != null) {
+				this.learn(Parser.createImplication(line));
+				line = br.readLine();
+			}
 		}
 	}
 
 	public boolean answer(String query) {
-		return false;
+		Query q = Parser.createQuery(query);
+		return facts.get(q.getDefinition()).stream().anyMatch(fact -> fact.answer(q.getParameters()));
 	}
 
 	private void learn(Fact newFact) {
 		List<Fact> list;
-		if(facts.containsKey(newFact.getDefinition()))
+		if (facts.containsKey(newFact.getDefinition())) {
 			list = facts.get(newFact.getDefinition());
-		else
+		} else {
 			list = new ArrayList<>();
+			facts.put(newFact.getDefinition(), list);
+		}
 		list.add(newFact);
 	}
 

@@ -8,25 +8,25 @@ public class FactTest {
 
 	@Test
 	public void testValidFact() {
-		Fact fact = Parser.create("varon (javier)");
+		Fact fact = Parser.createImplication("varon (javier)");
 		assert (fact.answer("javier"));
 	}
 	
 	@Test
 	public void testinvalidFact() {
-		Fact fact = Parser.create("varon (javier)");
+		Fact fact = Parser.createImplication("varon (javier)");
 		assertFalse (fact.answer("pedro"));
 	}
 
 	@Test
 	public void testMultipleValidFacts() {
-		Fact fact = Parser.create("varon (javier, lucia)");
+		Fact fact = Parser.createImplication("varon (javier, lucia)");
 		assert (fact.answer(new String[]{"javier", "lucia"}));
 	}
 	
 	@Test
 	public void testMultipleFactsOneWrong() {
-		Fact fact = Parser.create("varon (javier, lucia)");
+		Fact fact = Parser.createImplication("varon (javier, lucia)");
 		assertFalse (fact.answer(new String[]{"javier", "lucio"}));
 	}
 }
