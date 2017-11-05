@@ -27,4 +27,9 @@ public class KnowledgeBaseTest {
 	public void testQueryCorrectRule() {
 		Assert.assertTrue(this.knowledgeBase.answer("hijo (pepe, juan)."));
 	}
+
+	@Test
+	public void testQueryInorrectRule() {
+		Assert.assertFalse(this.knowledgeBase.answer("hijo (juan, juan)."));
+	}
 }
