@@ -11,6 +11,7 @@ public class ParserTest {
 		assert (Parser.validate("varon (javier)"));
 		assert (Parser.validate("varon(javier)"));
 		assert (Parser.validate("varon (javier)."));
+		assert (Parser.validate("varon ( nicolas )."));
 	}
 
 	@Test
